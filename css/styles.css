@@ -1,0 +1,158 @@
+/*GLOBAL STYLES*/
+body {
+    width: 100%;
+    margin: 0 auto;
+
+    font-size: 16px;
+
+    font-family: 'Oswald', sans-serif;
+    color: #333333;
+}
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+
+/*FAST STYLES*/
+
+._title-text {
+    font-size: 2.5rem;
+    color: #333333;
+}
+
+._white-href a {
+    color: white !important;
+}
+
+.control-btn__white {
+    color: #ffa813 !important;
+    background-color: white !important;
+}
+.control-btn__white,
+.control-btn {
+    width: 15rem;
+
+    margin: 0.4rem 1rem 0.4rem 0rem;
+    padding: 0.6rem 1rem;
+
+    background-color: #ffa813;
+    color: white;
+
+    font-size: 15px;
+
+    border: 2px solid #ffa813;
+    border-radius: 10px;
+}
+
+.control-btn:hover {
+    cursor: pointer;
+    background-color: white;
+    color: #ffa813;
+}
+
+.control-btn__white:hover {
+    cursor: pointer;
+    background-color: #ffa813 !important;
+    color: white !important;
+}
+
+/*HEADER*/
+
+.header {
+    display: block;
+
+    width: 100%;
+    background-color: white;
+}
+
+.header .nav-panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+.nav-panel .nav-panel__logo {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 20%;
+
+    padding: 0 25px;
+}
+
+.nav-panel .nav-panel__logo .logo-image {
+    background-image: url("../resources/icons/graphic.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    width: 30%;
+    height: 80%;
+}
+
+.nav-panel .nav-panel__logo .logo-text {
+    font-size: 2rem;
+}
+
+.nav-panel .nav-panel__buttons {
+    display: flex;
+    justify-content: end;
+    width: 60%;
+
+    margin: 0 10px;
+}
+
+.nav-panel .nav-panel__buttons ul {
+    display: flex;
+    flex-direction: row;
+
+    list-style: none;
+}
+
+.nav-panel .nav-panel__buttons ul li {
+    padding: 5px 20px;
+}
+
+.nav-panel .nav-panel__buttons ._yellow-button {
+    background-color: #ffa813;
+    border: 1px solid #ffa813;
+    border-radius: 50px;
+}
+
+/*CONTENT*/
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    margin: 50px 0;
+}
+
+.welcome-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.welcome-content__description {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+}
+
+.welcome-content__image {
+    width: 40%;
+
+    background: url("../resources/images/Home-Icon.png") no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+

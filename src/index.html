@@ -4,16 +4,46 @@
     <meta charset="UTF-8">
     <title>Fast Grapher</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
     <script src="../js/script.js"></script>
 </head>
 <body>
 <div class="header">
     <div class="nav-panel">
-        <div class="nav-panel-logo"></div>
-        <div class="nav-panel-buttons"></div>
+        <div class="nav-panel__logo">
+            <div class="logo-image"></div>
+            <div class="logo-text">FastGrapher</div>
+        </div>
+        <div class="nav-panel__buttons">
+            <ul>
+                <a class="_yellow-button" href="" style="color: white">
+                    <li>Построить график</li>
+                </a>
+                <a href="">
+                    <li>О сервисе</li>
+                </a>
+                <a href="">
+                    <li>Помощь</li>
+                </a>
+            </ul>
+        </div>
     </div>
 </div>
-<div class="content"></div>
+<div class="content">
+    <div class="welcome-content">
+        <div class="welcome-content__description">
+            <div class="_title-text">Постройте свой график быстро!</div>
+            <p>
+                С помощью данного сервиса вы можете построить график функции y = f(x) точно и за считанные мгновения.
+                Благодоря калькулятору, который анализирует входную строку и вычисляет значения, предварительно переведя
+                его в байт-код.
+            </p>
+            <button class="control-btn">Попробовать</button>
+            <button class="control-btn__white">О сервисе</button>
+        </div>
+        <div class="welcome-content__image"></div>
+    </div>
+</div>
 <div class="footer"></div>
 </body>
 </html>
