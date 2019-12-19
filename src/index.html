@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fast Grapher</title>
+    <title>Quick Graph</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
-    <script src="../js/script.js"></script>
+    <script src="../js/script.js" type="module"></script>
+    <script src="../node_modules/chart.js/dist/Chart.min.js"></script>
 </head>
 <body>
 <div class="header">
     <div class="nav-panel">
         <div class="nav-panel__logo">
             <div class="logo-image"></div>
-            <div class="logo-text">FastGrapher</div>
+            <div class="logo-text">QuickGraph</div>
         </div>
         <div class="nav-panel__buttons">
             <ul>
@@ -30,7 +31,7 @@
     </div>
 </div>
 <div class="content">
-    <div class="welcome-content">
+    <div class="welcome-content _with-bottom-dashed-border">
         <div class="welcome-content__description">
             <div class="_title-text">Постройте свой график быстро!</div>
             <p>
@@ -43,7 +44,169 @@
         </div>
         <div class="welcome-content__image"></div>
     </div>
+    <div class="personal-card">
+        <div class="personal-card__description">
+            <div class="personal-card__description__text-block">
+                <h3 class="big-title-text _white-text">ramaketa<br>@gmail.com</h3>
+                <h3 class="big-title-text _white-text">___</h3>
+                <h3 class="_white-text">
+                    Hi everyone, my name is Ramazan and I am the developer of this service. The front of the site
+                    written
+                    using HTML, CSS. JavaScript and AngularJS. Server part using Microsoft CppRestSDK library.
+                    <br>
+                    All my projects you can see at my GitHub profile
+                </h3>
+            </div>
+        </div>
+        <div class="personal-card__image"></div>
+    </div>
+    <div>
+        <div class="build-graph _with-bottom-dashed-border  _with-top-dashed-border">
+            <h3 class="big-title-text">Построить график.</h3>
+            <div class="build-graph__params">
+                <form>
+                    <div style="display: flex; padding-bottom: 50px; justify-content: center">
+                        <div class="form-set" style="padding-right: 7%">
+                            <div class="form-field">
+                                <div class="form-field__label">Введите функцию:</div>
+                                <div class="form-field__value">
+                                    Y = <input type="text"
+                                               placeholder="Например: 3 * x + (10^x - 5)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-set"
+                             style="width: 40%; text-align: center"
+                        >
+                            <div class="form-field">
+                                <div class="form-field__label">Переменная</div>
+                                <div class="form-field__value">
+                                    <input class="_small-field"
+                                           type="text"
+                                           pattern="^[A-Za-z]+$"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <div class="form-field__label">Значение</div>
+                                <div class="form-field__value">
+                                    <input class="_small-field"
+                                           pattern="^[0-9]+$">
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <div class="form-field__label">Переменная</div>
+                                <div class="form-field__value">
+                                    <input class="_small-field"
+                                           type="text"
+                                           pattern="^[A-Za-z]+$">
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <div class="form-field__label">Значение</div>
+                                <div class="form-field__value">
+                                    <input class="_small-field"
+                                           pattern="^[0-9]+$">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-set">
+                            <div class="form-field">
+                                <a class="_yellow-text">
+                                    + ДОБАВИТЬ ПЕРЕМЕННУЮ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="control-btn">ПОСТРОИТЬ</button>
+                </form>
+            </div>
+        </div>
+        <canvas id="myChart" width="500" height="200"></canvas>
+    </div>
 </div>
-<div class="footer"></div>
+<script>
+    let x = [-86,-114,-106,106,107,-111,133,221,-783,2478];
+    let y = [86,114,106,106,107,111,133,221,783,-2478];
+
+    let min_x = Math.min( ...x ),
+        max_x = Math.max( ...x );
+        max_y = Math.max( ...y );
+        min_y = Math.max( ...y );
+
+    new Chart(document.getElementById("myChart"), {
+        type: 'line',
+        data: {
+            labels: x,
+            datasets: [{
+                data: y,
+                label: "y = f(x)",
+                borderColor: "#3e95cd",
+                fill: false
+            }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'function y = f(x)'
+            },
+            scales: {
+                yAxes:[{
+                    stacked:true,
+                    gridLines: {
+                        display:true,
+                        color:"rgba(255,99,132,0.2)"
+                    },
+                    ticks: {
+                        suggestedMax: max_y,
+                        suggestedMin: min_y,
+                    }
+                }],
+                xAxes:[{
+                    stepSize: 100,
+                    stacked: true,
+                    gridLines: {
+                        display:true
+                    },
+                    ticks: {
+                        suggestedMax: max_x,
+                        suggestedMin: min_x,
+                    }
+                }]
+            }
+        }
+    });
+</script>
+<div class="footer">
+    <div class="footer__other_links">
+        <ul>
+            <a href="">
+                <li style="background: url(../resources/icons/github.png)"></li>
+            </a>
+            <a href="">
+                <li style="background: url(../resources/icons/gmail.png)"></li>
+            </a>
+            <a href="">
+                <li style="background: url(../resources/icons/vk.png)"></li>
+            </a>
+        </ul>
+    </div>
+    <div class="footer__links">
+        <ul>
+            <a href="">
+                <li>О сервисе</li>
+            </a>
+            <a href="">
+                <li>Помощь</li>
+            </a>
+            <a href="">
+                <li>Построить график</li>
+            </a>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
