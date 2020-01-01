@@ -15,6 +15,19 @@ a {
     cursor: pointer;
 }
 
+/* ICONS */
+.icon {
+    height: 2rem;
+    width: 2rem;
+    float: right;
+    margin-top: .8rem;
+}
+
+.icon-delete {
+    background: url("../resources/icons/garbage.png") no-repeat;
+    background-size: contain;
+}
+
 /*FAST STYLES*/
 
 .big-title-text {

@@ -63,7 +63,7 @@
     <div>
         <div class="build-graph _with-bottom-dashed-border  _with-top-dashed-border">
             <h3 class="big-title-text">Построить график.</h3>
-            <div class="build-graph__params">
+            <div class="build-graph__params" ng-controller="graphController">
                 <form ng-model="graphForm">
                     <div style="display: flex; padding-bottom: 50px; justify-content: center">
                         <div class="form-set" style="width: 31%">
@@ -101,17 +101,14 @@
                             </div>
                         </div>
 
-                        <div class="form-set"
-                             style="width: 40%; text-align: center"
-                        >
+                        <div class="form-set" style="width: 40%; text-align: center">
                             <div class="form-field">
                                 <div class="form-field__label">Переменная</div>
                                 <div class="form-field__value">
                                     <input class="_small-field"
                                            type="text"
                                            pattern="^[A-Za-z]+$"
-                                           required="true"
-                                    >
+                                           ng-model="newItem.term">
                                 </div>
                             </div>
                             <div class="form-field">
@@ -119,31 +116,34 @@
                                 <div class="form-field__value">
                                     <input class="_small-field"
                                            pattern="^[0-9]+$"
-                                           required="true">
+                                           ng-model="newItem.value">
                                 </div>
                             </div>
-                            <div class="form-field">
-                                <div class="form-field__label">Переменная</div>
-                                <div class="form-field__value">
-                                    <input class="_small-field"
-                                           type="text"
-                                           pattern="^[A-Za-z]+$"
-                                           required="true">
+
+                            <div class="form-field__label" style="width: 65%">Переменные:</div>
+                            <div class="form-set" ng-repeat="item in items track by $index">
+                                <div class="form-field">
+                                    <div class="form-field__value">
+                                        <input class="_small-field"
+                                               pattern="^[0-9]+$"
+                                               ng-model="item.term"
+                                               ng-disabled="true">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-field">
-                                <div class="form-field__label">Значение</div>
-                                <div class="form-field__value">
-                                    <input class="_small-field"
-                                           pattern="^[0-9]+$"
-                                           required="true">
+                                <div class="form-field">
+                                    <div class="form-field__value">
+                                        <input class="_small-field"
+                                               pattern="^[0-9]+$"
+                                               ng-model="item.value"
+                                               ng-disabled="true">
+                                        <i class="icon icon-delete" ng-click="removeItem($index)"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-set">
+                        <div class="form-set" style="margin-top: 2.5rem;">
                             <div class="form-field">
-                                <a class="_yellow-text">
+                                <a class="_yellow-text" ng-click="addVariable(newItem)">
                                     + ДОБАВИТЬ ПЕРЕМЕННУЮ
                                 </a>
                             </div>
@@ -185,7 +185,8 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
-<script src="../node_modules/angular/angular.min.js"></script>
+<!--<script src="../node_modules/angular/angular.min.js"></script>-->
+<!--<script src="../node_modules/angular/index.js"></script>-->
 <script src="../js/graph.controller.js"></script>
 </body>
 </html>
