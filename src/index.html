@@ -64,7 +64,7 @@
         <div class="build-graph _with-bottom-dashed-border  _with-top-dashed-border">
             <h3 class="big-title-text">Построить график.</h3>
             <div class="build-graph__params" ng-controller="graphController">
-                <form ng-model="graphForm">
+                <form name="graphForm">
                     <div style="display: flex; padding-bottom: 50px; justify-content: center">
                         <div class="form-set" style="width: 31%">
                             <div class="form-field">
@@ -73,7 +73,7 @@
                                     Y(x) = <input type="text"
                                                   placeholder="Например: 3 * x + (10^x - 5)"
                                                   ng-required="true"
-                                >
+                                                  ng-model="graph.equation">
                                 </div>
                             </div>
                             <div class="form-field">
@@ -81,22 +81,23 @@
                                 <div class="form-field__value">
                                     Шаг = <input type="text"
                                            pattern="^[0-9]+$"
-                                           required="true"
-                                    >
+                                           ng-required="true"
+                                           ng-model="graph.step">
                                 </div>
                             </div>
                             <div class="form-field">
                                 <div class="form-field__value">
                                     min = <input type="text"
                                            pattern="^[0-9]+$"
-                                           required="true"
-                                    >
+                                           ng-required="true"
+                                           ng-model="graph.min">
                                 </div>
                             </div>
                             <div class="form-field">
                                 <div class="form-field__value">
                                     max = <input pattern="^[0-9]+$"
-                                                 required="true">
+                                                 ng-required="true"
+                                                 ng-model="graph.max">
                                 </div>
                             </div>
                         </div>
@@ -121,11 +122,10 @@
                             </div>
 
                             <div class="form-field__label" style="width: 65%">Переменные:</div>
-                            <div class="form-set" ng-repeat="item in items track by $index">
+                            <div class="form-set" ng-repeat="item in variables track by $index">
                                 <div class="form-field">
                                     <div class="form-field__value">
                                         <input class="_small-field"
-                                               pattern="^[0-9]+$"
                                                ng-model="item.term"
                                                ng-disabled="true">
                                     </div>
@@ -133,7 +133,6 @@
                                 <div class="form-field">
                                     <div class="form-field__value">
                                         <input class="_small-field"
-                                               pattern="^[0-9]+$"
                                                ng-model="item.value"
                                                ng-disabled="true">
                                         <i class="icon icon-delete" ng-click="removeItem($index)"></i>
@@ -149,7 +148,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="control-btn">ПОСТРОИТЬ</button>
+                    <button type="submit" class="control-btn" ng-click="sendParams()">ПОСТРОИТЬ</button>
                 </form>
             </div>
         </div>

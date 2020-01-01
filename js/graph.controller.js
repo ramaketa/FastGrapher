@@ -5,12 +5,14 @@ graphApp.controller('graphController', function($scope, graphParamsService){
 
    vm.newItem = {
    };
+   vm.graph = {
+   };
 
-    vm.items = graphParamsService.allVars;
+    vm.variables = [];
 
     vm.addVariable = (data) => {
         if (data.term && data.value) {
-            vm.items.push(data);
+            vm.variables.push(data);
         } else {
             alert('Заполните все поля!');
         }
@@ -18,17 +20,37 @@ graphApp.controller('graphController', function($scope, graphParamsService){
     };
 
     vm.removeItem = (index) => {
-        vm.items.splice(index, 1);
+        vm.variables.splice(index, 1);
     };
 
     vm.sendParams = () => {
-
+        if(vm.graphForm.$valid) {
+            console.log(vm.graph, vm.variables);
+            graphParamsService.sendRequest(vm.graph)
+                .then(
+                    (res) => {
+                        console.log(res);
+                    },
+                    (err) => {
+                        console.log(err)
+                    }
+                )
+        } else {
+            alert('Заполните все поля!');
+        }
     }
 });
 
 graphApp.service('graphParamsService', function(){
-    return {
-        allVars: [
-        ]
-    }
+    const service = undefined;
+
+    service.sendRequest = (data) => {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:3000',
+            params: data,
+        });
+    };
+
+    return service;
 });
