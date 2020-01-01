@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
     <script src="../js/script.js" type="module"></script>
-    <script src="../node_modules/chart.js/dist/Chart.min.js"></script>
+<!--    <script src="../node_modules/chart.js/dist/Chart.min.js"></script>-->
 </head>
-<body>
+<body ng-app="graphApp">
 <div class="header">
     <div class="nav-panel">
         <div class="nav-panel__logo">
@@ -64,14 +64,39 @@
         <div class="build-graph _with-bottom-dashed-border  _with-top-dashed-border">
             <h3 class="big-title-text">Построить график.</h3>
             <div class="build-graph__params">
-                <form>
+                <form ng-model="graphForm">
                     <div style="display: flex; padding-bottom: 50px; justify-content: center">
-                        <div class="form-set" style="padding-right: 7%">
+                        <div class="form-set" style="width: 31%">
                             <div class="form-field">
                                 <div class="form-field__label">Введите функцию:</div>
                                 <div class="form-field__value">
-                                    Y = <input type="text"
-                                               placeholder="Например: 3 * x + (10^x - 5)">
+                                    Y(x) = <input type="text"
+                                                  placeholder="Например: 3 * x + (10^x - 5)"
+                                                  ng-required="true"
+                                >
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <div class="form-field__label">Границы и шаг:</div>
+                                <div class="form-field__value">
+                                    Шаг = <input type="text"
+                                           pattern="^[0-9]+$"
+                                           required="true"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <div class="form-field__value">
+                                    min = <input type="text"
+                                           pattern="^[0-9]+$"
+                                           required="true"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <div class="form-field__value">
+                                    max = <input pattern="^[0-9]+$"
+                                                 required="true">
                                 </div>
                             </div>
                         </div>
@@ -85,6 +110,7 @@
                                     <input class="_small-field"
                                            type="text"
                                            pattern="^[A-Za-z]+$"
+                                           required="true"
                                     >
                                 </div>
                             </div>
@@ -92,7 +118,8 @@
                                 <div class="form-field__label">Значение</div>
                                 <div class="form-field__value">
                                     <input class="_small-field"
-                                           pattern="^[0-9]+$">
+                                           pattern="^[0-9]+$"
+                                           required="true">
                                 </div>
                             </div>
                             <div class="form-field">
@@ -100,14 +127,16 @@
                                 <div class="form-field__value">
                                     <input class="_small-field"
                                            type="text"
-                                           pattern="^[A-Za-z]+$">
+                                           pattern="^[A-Za-z]+$"
+                                           required="true">
                                 </div>
                             </div>
                             <div class="form-field">
                                 <div class="form-field__label">Значение</div>
                                 <div class="form-field__value">
                                     <input class="_small-field"
-                                           pattern="^[0-9]+$">
+                                           pattern="^[0-9]+$"
+                                           required="true">
                                 </div>
                             </div>
                         </div>
@@ -120,66 +149,13 @@
                             </div>
                         </div>
                     </div>
-                    <button class="control-btn">ПОСТРОИТЬ</button>
+                    <button type="submit" class="control-btn">ПОСТРОИТЬ</button>
                 </form>
             </div>
         </div>
         <canvas id="myChart" width="500" height="200"></canvas>
     </div>
 </div>
-<script>
-    let x = [-86,-114,-106,106,107,-111,133,221,-783,2478];
-    let y = [86,114,106,106,107,111,133,221,783,-2478];
-
-    let min_x = Math.min( ...x ),
-        max_x = Math.max( ...x );
-        max_y = Math.max( ...y );
-        min_y = Math.max( ...y );
-
-    new Chart(document.getElementById("myChart"), {
-        type: 'line',
-        data: {
-            labels: x,
-            datasets: [{
-                data: y,
-                label: "y = f(x)",
-                borderColor: "#3e95cd",
-                fill: false
-            }
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'function y = f(x)'
-            },
-            scales: {
-                yAxes:[{
-                    stacked:true,
-                    gridLines: {
-                        display:true,
-                        color:"rgba(255,99,132,0.2)"
-                    },
-                    ticks: {
-                        suggestedMax: max_y,
-                        suggestedMin: min_y,
-                    }
-                }],
-                xAxes:[{
-                    stepSize: 100,
-                    stacked: true,
-                    gridLines: {
-                        display:true
-                    },
-                    ticks: {
-                        suggestedMax: max_x,
-                        suggestedMin: min_x,
-                    }
-                }]
-            }
-        }
-    });
-</script>
 <div class="footer">
     <div class="footer__other_links">
         <ul>
@@ -208,5 +184,8 @@
         </ul>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
+<script src="../node_modules/angular/angular.min.js"></script>
+<script src="../js/graph.controller.js"></script>
 </body>
 </html>

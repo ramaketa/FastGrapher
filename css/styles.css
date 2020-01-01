@@ -12,9 +12,35 @@ body {
 a {
     text-decoration: none;
     color: #333333;
+    cursor: pointer;
 }
 
 /*FAST STYLES*/
+
+.big-title-text {
+    font-size: 2rem;
+    color: #333333;
+}
+
+._with-bottom-dashed-border {
+    border-bottom: 2px dashed #333333;
+}
+
+._with-top-dashed-border {
+    border-top: 2px dashed #333333;
+}
+
+._yellow-text {
+    color: #ffa813 !important;
+}
+
+._white-text {
+    color: white !important;
+}
+
+._bold-text {
+    font-weight: bold;
+}
 
 ._title-text {
     font-size: 2.5rem;
@@ -121,23 +147,25 @@ a {
 .nav-panel .nav-panel__buttons ._yellow-button {
     background-color: #ffa813;
     border: 1px solid #ffa813;
-    border-radius: 50px;
+    border-radius: 10px;
 }
 
 /*CONTENT*/
 
 .content {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
 
-    margin: 50px 0;
+
+    margin: 50px 5%;
 }
 
 .welcome-content {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-bottom: 20px;
 }
 
 .welcome-content__description {
@@ -155,4 +183,111 @@ a {
     background-position: center;
 }
 
+/*PERSONAL_CARD*/
+
+.personal-card {
+    width: 90%;
+    margin: 5% 10% 5% 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.personal-card__description {
+    width: 50%;
+    background-color: #042A38;
+    color: white;
+    min-height: 300px;
+}
+
+.personal-card__description__text-block {
+    width: 80%;
+    padding: 0 10%;
+}
+
+.personal-card__image {
+    width: 50%;
+    height: 393px;
+    background-image: url("../resources/images/profile-image.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/*GRAPH SECTION*/
+
+.build-graph {
+    width: 100%;
+    text-align: center;
+    margin: 50px auto;
+}
+
+.build-graph__params {
+    margin: 50px auto;
+}
+
+.form-set {
+    float: left;
+}
+
+.form-set:last-child {
+    float: none;
+}
+
+.form-field {
+    float: left;
+    margin: 0 50px 0 0;
+}
+
+.form-field input {
+    padding: 10px;
+    margin: 10px 0px;
+    width: 200px;
+}
+
+.form-field input._small-field {
+    width: 100px;
+}
+
+/*FOOTER*/
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    background-color: #ffa813;
+}
+
+.footer__links {
+    width: 45%;
+    text-align: right;
+}
+
+.footer__other_links {
+    width: 50%;
+}
+
+.footer__other_links ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+}
+
+.footer__links ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+}
+
+.footer__links ul li {
+    margin: 15px 50px;
+}
+
+.footer__other_links ul li {
+    margin: 10px 100px;
+    background-size: contain !important;
+    width: 2.5rem;
+    height: 2.5rem;
+}
 

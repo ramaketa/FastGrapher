@@ -10,12 +10,12 @@ using namespace web;
 using namespace utility;
  
 void handleGet(http_request request) {
+    ucout << request.to_string() << std::endl;
     request.reply(status_codes::OK,
-        "{ 'id':1, 'name': 'Darova' }", "application/json");
+        "Hello world", "application/json");
 }
  
 void handlePost(http_request request) {
- 
     request.reply(status_codes::OK,
         "{ 'isError':false }", "application/json");
 }
@@ -43,7 +43,9 @@ int main() {
                 http_client client(U("http://localhost:3000"));
                 client
                     .request(methods::GET)
-                    .then([](http_response response) { return response.extract_string(); })
+                        .then([](http_response response) {
+                            return response.extract_string(); 
+                        })
                     .then([](string_t content) { std::wcout << U("Content: ") << content << std::endl; });
             }
         });
