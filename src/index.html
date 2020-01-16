@@ -88,14 +88,14 @@
                             <div class="form-field">
                                 <div class="form-field__value">
                                     min = <input type="text"
-                                           pattern="^[0-9]+$"
+                                           pattern="^[0-9-]+$"
                                            ng-required="true"
                                            ng-model="graph.min">
                                 </div>
                             </div>
                             <div class="form-field">
                                 <div class="form-field__value">
-                                    max = <input pattern="^[0-9]+$"
+                                    max = <input pattern="^[0-9-]+$"
                                                  ng-required="true"
                                                  ng-model="graph.max">
                                 </div>
@@ -104,7 +104,7 @@
 
                         <div class="form-set" style="width: 40%; text-align: center">
                             <div class="form-field">
-                                <div class="form-field__label">Переменная</div>
+                                <div class="form-field__label">Константа</div>
                                 <div class="form-field__value">
                                     <input class="_small-field"
                                            type="text"
@@ -116,12 +116,13 @@
                                 <div class="form-field__label">Значение</div>
                                 <div class="form-field__value">
                                     <input class="_small-field"
-                                           pattern="^[0-9]+$"
+                                           pattern="^[0-9-]+$"
                                            ng-model="newItem.value">
                                 </div>
                             </div>
 
-                            <div class="form-field__label" style="width: 65%">Переменные:</div>
+                            <div class="form-field__label" style="width: 65%">Константы:</div>
+                            <div class="form-field__label _yellow-text" ng-if="variables.length == 0" style="width: 65%">Нет заявленных констант!</div>
                             <div class="form-set" ng-repeat="item in variables track by $index">
                                 <div class="form-field">
                                     <div class="form-field__value">
@@ -150,6 +151,8 @@
                     </div>
                     <button type="submit" class="control-btn" ng-click="sendParams()">ПОСТРОИТЬ</button>
                 </form>
+                <button class="control-btn" ng-click="sendParams()">ПОСТРОИТЬ</button>
+
             </div>
         </div>
         <canvas id="myChart" width="500" height="200"></canvas>

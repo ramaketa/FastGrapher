@@ -1,57 +1,124 @@
 #include <cpprest/http_listener.h>
-#include <cpprest/http_client.h>
-#include <future>
-#include <chrono>
- 
-using namespace web::http::experimental::listener;
-using namespace web::http::client;
-using namespace web::http;
+#include <cpprest/json.h>
+
 using namespace web;
-using namespace utility;
- 
-void handleGet(http_request request) {
-    ucout << request.to_string() << std::endl;
-    request.reply(status_codes::OK,
-        "Hello world", "application/json");
+using namespace web::http;
+using namespace web::http::experimental::listener;
+
+#include <iostream>
+#include <map>
+#include <set>
+#include <string>
+using namespace std;
+
+#define TRACE(msg)            wcout << msg
+#define TRACE_ACTION(a, k, v) wcout << a << L" (" << k << L", " << v << L")\n"
+
+
+struct REQUEST_PARAMS {
+    utility::string_t equation;
+    utility::string_t varsString;
+    utility::string_t vars;
+    double min;
+    double max;
+    double step;
+    
+    /////////////////////////////////
+    // Convert a JSON Object to a C++ Struct
+    //
+    static REQUEST_PARAMS JSonToObject(const web::json::object& object) {
+        REQUEST_PARAMS result;
+        result.equation = object.at(U("equation")).as_string();
+        result.varsString = object.at(U("varsString")).as_string();
+        result.vars = object.at(U("vars")).as_string();
+        result.min = object.at(U("min")).as_double();
+        result.max = object.at(U("max")).as_double();
+        result.step = object.at(U("step")).as_double();
+        return result;
+    }
+
+    /*web::json::value ObjectToJson() const {
+        web::json::value result = web::json::value::object();
+        result[U("equation")] = web::json::value::string(name);
+        result[U("varsString")] = web::json::value::number(age);
+        result[U("varsString")] = web::json::value::number(salary);
+        return result;
+    }*/
+};
+
+void display_json(
+    json::value const& jvalue,
+    utility::string_t const& prefix)
+{
+    wcout << prefix << jvalue.serialize() << endl;
 }
- 
-void handlePost(http_request request) {
-    request.reply(status_codes::OK,
-        "{ 'isError':false }", "application/json");
-}
- 
- 
- 
-int main() {
- 
-    http_listener listener(U("http://localhost:3000"));
- 
-    listener
-        .open()
-        .then([&listener]()
+
+void handle_request(
+    http_request request,
+    function<void(json::value const&, json::value&)> action)
+{
+    auto answer = json::value::object();
+
+    request
+        .extract_json()
+        .then([&answer, &action](pplx::task<json::value> task) {
+        try
         {
-            listener.support(methods::GET, std::bind(&handleGet, std::placeholders::_1));
-            listener.support(methods::POST, std::bind(&handleGet, std::placeholders::_1));
-        })
-        .wait();
- 
-        std::thread task([]() {
-            while (true)
+            auto const& jvalue = task.get();
+            display_json(jvalue, L"R: ");
+                       
+
+            if (!jvalue.is_null())
             {
-                std::this_thread::sleep_for(std::chrono::seconds(15));
- 
-                http_client client(U("http://localhost:3000"));
-                client
-                    .request(methods::GET)
-                        .then([](http_response response) {
-                            return response.extract_string(); 
-                        })
-                    .then([](string_t content) { std::wcout << U("Content: ") << content << std::endl; });
+                action(jvalue, answer);
             }
+        }
+        catch (http_exception const& e)
+        {
+            wcout << e.what() << endl;
+        }
+            })
+        .wait();
+
+
+        display_json(answer, L"S: ");
+
+        request.reply(status_codes::OK, answer);
+}
+
+void handle_post(http_request request)
+{
+    TRACE("\nhandle POST\n");
+
+    handle_request(
+        request,
+        [](json::value const& jvalue, json::value& answer)
+        {
+            REQUEST_PARAMS pm;
+            pm.JSonToObject(jvalue.as_object());
         });
- 
- 
-        std::promise<void>().get_future().wait();
- 
-        return 0;
+}
+
+
+int main()
+{
+    http_listener listener(L"http://localhost:3000");
+
+    listener.support(methods::POST, handle_post);
+
+    try
+    {
+        listener
+            .open()
+            .then([&listener]() {TRACE(L"\nstarting to listen\n"); })
+            .wait();
+
+        while (true);
+    }
+    catch (exception const& e)
+    {
+        wcout << e.what() << endl;
+    }
+
+    return 0;
 }
