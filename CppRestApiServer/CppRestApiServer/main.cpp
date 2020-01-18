@@ -9,16 +9,23 @@ using namespace web::http::experimental::listener;
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
+#include <utility>
+#include <sstream>
+
+#include "fparser.hh"
+
 using namespace std;
 
 #define TRACE(msg)            wcout << msg
 #define TRACE_ACTION(a, k, v) wcout << a << L" (" << k << L", " << v << L")\n"
 
+typedef std::wstring string_t;
 
 struct REQUEST_PARAMS {
-    utility::string_t equation;
-    utility::string_t varsString;
-    utility::string_t vars;
+    string_t equation;
+    string_t varsString;
+    string_t vars;
     double min;
     double max;
     double step;
@@ -46,6 +53,57 @@ struct REQUEST_PARAMS {
     }*/
 };
 
+void calc(REQUEST_PARAMS client_params) {
+
+    double min = client_params.min;
+    double max = client_params.max;
+    double step = client_params.step;
+
+    const string equation = utility::conversions::to_utf8string(client_params.equation);
+    const string varsString = utility::conversions::to_utf8string(client_params.varsString);
+    const string vars = utility::conversions::to_utf8string(client_params.vars);
+
+    vector<double> vars_values;
+    vector<double> y_values;
+    vector<double> x_values;
+
+    double x = min;
+
+
+    // строку типа "12, 132, 98" в массив double {12, 132, 98}
+    istringstream iss(vars);
+
+    for (double s; iss >> s;) {
+        vars_values.push_back(s);
+    }
+
+    int n = vars_values.size()+1;
+    double* vals;
+    vals = new double[n];
+
+    for (int i = 0; i < n-1; i++)
+    {
+        vals[i] = vars_values[i];
+    }
+
+    FunctionParser fp;
+
+    int ret = fp.Parse(equation, varsString);
+    
+    if (ret < 0) {
+        while (x < max)
+        {
+            vals[n-1] = x;
+            y_values.push_back(fp.Eval(vals));
+            x_values.push_back(x);
+            x += step;
+        }
+    }
+
+    wcout << y_values[2] << endl;
+    wcout << ret << endl;
+}
+
 void display_json(
     json::value const& jvalue,
     utility::string_t const& prefix)
@@ -66,7 +124,11 @@ void handle_request(
         {
             auto const& jvalue = task.get();
             display_json(jvalue, L"R: ");
-                       
+
+            REQUEST_PARAMS pm;
+            pm = pm.JSonToObject(jvalue.as_object());
+
+            calc(pm);
 
             if (!jvalue.is_null())
             {
@@ -94,8 +156,6 @@ void handle_post(http_request request)
         request,
         [](json::value const& jvalue, json::value& answer)
         {
-            REQUEST_PARAMS pm;
-            pm.JSonToObject(jvalue.as_object());
         });
 }
 

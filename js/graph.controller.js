@@ -1,7 +1,9 @@
 const graphApp = angular.module('graphApp', []);
 
-graphApp.controller('graphController', function($scope, graphParamsService){
+graphApp.controller('graphController', function($scope, $http, graphParamsService){
    const vm = $scope;
+   let varsString = '';
+   let vars = [];
 
    vm.newItem = {
    };
@@ -24,9 +26,21 @@ graphApp.controller('graphController', function($scope, graphParamsService){
     };
 
     vm.sendParams = () => {
+        vars = [];
+        varsString = '';
         if(vm.graphForm.$valid) {
-            console.log(vm.graph, vm.variables);
-            graphParamsService.sendRequest(vm.graph)
+            for(let i = 0; i < vm.variables.length; i++) {
+                varsString += vm.variables[i].term + ',';
+                if (i !== vm.variables.length - 1) {
+                    vars += Number(vm.variables[i].value) + ' ';
+                } else {
+                    vars += Number(vm.variables[i].value);
+                }
+            }
+            varsString += 'x';
+
+            console.log(varsString, vars);
+            graphParamsService.sendRequest(vm.graph.equation, varsString, vars, vm.graph.min, vm.graph.max, vm.graph.step)
                 .then(
                     (res) => {
                         console.log(res);
@@ -41,14 +55,25 @@ graphApp.controller('graphController', function($scope, graphParamsService){
     }
 });
 
-graphApp.service('graphParamsService', function(){
-    const service = undefined;
+graphApp.service('graphParamsService', function($http){
+    const service = {};
 
-    service.sendRequest = (data) => {
-        $http({
-            method: 'GET',
+    service.sendRequest = (equation, varsString, vars, min, max, step) => {
+        const data = {
+            "equation": equation,
+            "varsString": varsString,
+            "vars": vars.toString(),
+            "min": min,
+            "max": max,
+            "step": step,
+        };
+        return $http({
+            method: 'POST',
             url: 'http://localhost:3000',
-            params: data,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: data,
         });
     };
 
