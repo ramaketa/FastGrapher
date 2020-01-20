@@ -199,7 +199,7 @@ a {
 /*PERSONAL_CARD*/
 
 .personal-card {
-    width: 90%;
+    width: 80%;
     margin: 5% 10% 5% 10%;
     display: flex;
     flex-direction: row;
@@ -221,8 +221,8 @@ a {
 
 .personal-card__image {
     width: 50%;
-    height: 393px;
-    background-image: url("../resources/images/profile-image.jpg");
+    height: 380px;
+    background-image: url("../resources/images/developer.jpg");
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -302,5 +302,13 @@ a {
     background-size: contain !important;
     width: 2.5rem;
     height: 2.5rem;
+}
+
+._half-size {
+    width: 45%;
+}
+
+._center {
+    text-align: center;
 }
 

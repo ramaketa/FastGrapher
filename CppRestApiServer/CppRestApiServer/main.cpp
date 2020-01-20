@@ -45,7 +45,6 @@ struct REQUEST_PARAMS {
     
     /////////////////////////////////
     // Convert a JSON Object to a C++ Struct
-    //
     static REQUEST_PARAMS JSonToObject(const web::json::object& object) {
         REQUEST_PARAMS result;
         result.equation = object.at(U("equation")).as_string();
@@ -75,7 +74,6 @@ vector<vector<double>> calc(REQUEST_PARAMS client_params) {
     vector<double> x_values;
 
     double x = min;
-
 
     // строку типа "12, 132, 98" в массив double {12, 132, 98}
     istringstream iss(vars);
@@ -138,7 +136,7 @@ function<void(json::value const&, json::value &)> handler)
             wcout << L"Exception ->" << e.what() << endl;
         }
     }).wait();
-    display_json(result, L"sdsd:");
+    display_json(result, L"Server Response:");
     request.reply(status_codes::OK, result);
 }
 
@@ -157,23 +155,11 @@ void handle_post(http_request request)
             string x_values = "";
             string y_values = "";
             
-            //double* x_values;
-            //x_values = new double[calc_answers[0].size()];
-            //double* y_values;
-            //y_values = new double[calc_answers[1].size()];
-
             for (int i = 0; i < calc_answers[0].size(); i++)
             {
                 result[U("x")][i] = json::value::number(calc_answers[0][i]);
                 result[U("y")][i] = json::value::number(calc_answers[1][i]);
             }
-
-            //REQUEST_ANSWER ans;
-
-            //ans.x_values = utility::conversions::to_string_t(x_values);
-            //ans.y_values = utility::conversions::to_string_t(y_values);
-
-            //result[0] = web::json::value::(x_values);
 
         });
 }

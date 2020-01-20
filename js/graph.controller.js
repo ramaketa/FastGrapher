@@ -26,7 +26,7 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
     };
 
     vm.sendParams = () => {
-        vars = [];
+        vars = '';
         varsString = '';
         if(vm.graphForm.$valid) {
             for(let i = 0; i < vm.variables.length; i++) {
@@ -39,13 +39,55 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
             }
             varsString += 'x';
 
-            console.log(varsString, vars);
             graphParamsService.sendRequest(vm.graph.equation, varsString, vars, vm.graph.min, vm.graph.max, vm.graph.step)
                 .then(
                     (res) => {
-                        console.log(res);
+                        let responseData = res.data;
+                        let data_set = responseData.x.map(
+                            (item)=>{
+                                return Number(item.toFixed(4));
+                            });
+                        let label_set = responseData.y.map(
+                            (item)=>{
+                                return Number(item.toFixed(4));
+                        });
+                        const chartElem = document.getElementById("myChart");
+                        new Chart(chartElem, {
+                            type: 'line',
+                            data: {
+                                labels: data_set,
+                                datasets: [{
+                                    data: label_set,
+                                    label: "y = f(x)",
+                                    borderColor: "#3e95cd",
+                                    fill: false
+                                }
+                                ]
+                            },
+                            options: {
+                                title: {
+                                    display: true,
+                                    text: 'function y = f(x)'
+                                },
+                                scales: {
+                                    yAxes:[{
+                                        gridLines: {
+                                            display:true,
+                                            color:"rgba(255,99,132,0.2)"
+                                        },
+                                    }],
+                                    xAxes:[{
+                                        gridLines: {
+                                            display:true
+                                        },
+                                    }]
+                                }
+                            }
+                        });
+                        chartElem.scrollIntoView({block: "center", behavior: "smooth"});
                     },
                     (err) => {
+                        alert("Извините, что-то пошло не так. Проверьте корректность данных или обратитесь к администратору")
                         console.log(err)
                     }
                 )
@@ -62,10 +104,10 @@ graphApp.service('graphParamsService', function($http){
         const data = {
             "equation": equation,
             "varsString": varsString,
-            "vars": vars.toString(),
-            "min": min,
-            "max": max,
-            "step": step,
+            "vars": vars,
+            "min": Number(min),
+            "max": Number(max),
+            "step": Number(step),
         };
         return $http({
             method: 'POST',

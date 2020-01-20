@@ -17,13 +17,13 @@
         </div>
         <div class="nav-panel__buttons">
             <ul>
-                <a class="_yellow-button" href="" style="color: white">
+                <a class="_yellow-button"  href="#create" style="color: white">
                     <li>Построить график</li>
                 </a>
-                <a href="">
+                <a href="#service">
                     <li>О сервисе</li>
                 </a>
-                <a href="">
+                <a href="#help">
                     <li>Помощь</li>
                 </a>
             </ul>
@@ -39,15 +39,15 @@
                 Благодоря калькулятору, который анализирует входную строку и вычисляет значения, предварительно переведя
                 его в байт-код.
             </p>
-            <button class="control-btn">Попробовать</button>
-            <button class="control-btn__white">О сервисе</button>
+            <a href="#create"><button class="control-btn">Попробовать</button></a>
+            <a href="#service"><button class="control-btn__white">О сервисе</button></a>
         </div>
         <div class="welcome-content__image"></div>
     </div>
     <div class="personal-card">
         <div class="personal-card__description">
             <div class="personal-card__description__text-block">
-                <h3 class="big-title-text _white-text">ramaketa<br>@gmail.com</h3>
+                <h3 class="big-title-text _white-text">ramaketa@gmail.com</h3>
                 <h3 class="big-title-text _white-text">___</h3>
                 <h3 class="_white-text">
                     Hi everyone, my name is Ramazan and I am the developer of this service. The front of the site
@@ -60,9 +60,96 @@
         </div>
         <div class="personal-card__image"></div>
     </div>
+    <p id="service"></p>
+    <div class="about-service">
+        <h1 class="big-title-text _center">О Сервисе</h1>
+        <div class="_half-size" style="float: left">
+            <h3>Идея алгоритма</h3>
+            <p>
+                Вся суть алгоритма - перевод инфиксной записи выражения
+                в постфиксный формат. <br>
+                <br>
+                Например:<br>
+                  инфиксная запись: 2 + 3<br>
+                  постфиксная запись: 2 3 +<br>
+                <br>
+                  Постфиксная запись читается следующим образом:<br>
+                <br>
+                  Давайте возьмем для примера выражение: 5 2 * 8 2 / +<br>
+                  - кладем 5 в стек<br>
+                  - кладем 2 в стек<br>
+                  - Умножаем два значения в верхней части стека и поместите результат в<br>
+                    стек (удаляя два старых значения)<br>
+                  - кладем 8 в стек<br>
+                  - кладем 2 в стек<br>
+                  - Делим два значения на вершине стека<br>
+                  - Добавляем два значения в верхней части стека (в этом случае
+                    результат 5 * 2 и 8/2, то есть 10 и 4).<br>
+                  В конце остается лишь одно значение - результат выражения.<br>
+            </p>
+        </div>
+        <div class="_half-size" style="float: left; margin-left: 10%">
+            <h3>Функции, которые поддерживаются:</h3>
+            <p>
+            <table>
+                <thead>
+                    <th>Функция</th>
+                    <th>Пояснение</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>()</td>
+                    <td>Скобки, указывающие приоритет выполнения</td>
+                </tr>
+                <tr>
+                    <td>-А</td>
+                    <td>Унарный минус</td>
+                </tr>
+                <tr>
+                    <td>А^B</td>
+                    <td>Возведение A в степень B</td>
+                </tr>
+                <tr>
+                    <td>A*B A/B A%B</td>
+                    <td>Умножение, деление, остаток от деления</td>
+                </tr>
+                <tr>
+                    <td>A+B A-B</td>
+                    <td>Сложение, Вычитание</td>
+                </tr>
+                <tr>
+                    <td>A=B A< B A>B </td>
+                    <td>Сравнение А и В (возвращает 0 или 1)</td>
+                </tr>
+                <tr>
+                    <td>A&B A|B</td>
+                    <td>Логическое "И" и "ИЛИ"</td>
+                </tr>
+                <tr>
+                    <td>abs(A)</td>
+                    <td>Модуль числа</td>
+                </tr>
+                <tr>
+                    <td>сos(A), sin(A), asin(A), acos(A), tan(A) </td>
+                    <td>Тригонометрические функции: косинус, синус, арккосинус, арксинус, тангенс</td>
+                </tr>
+                <tr>
+                    <td>сosh(A), sinh(A), asinh(A), acosh(A), tanh(A)</td>
+                    <td>Гипорболические тригонометрические функции</td>
+                </tr>
+                <tr>
+                    <td>floor(A)</td>
+                    <td>Округление до целого</td>
+                </tr>
+                </tbody>
+            </table>
+            </p>
+        </div>
+    </div>
     <div>
         <div class="build-graph _with-bottom-dashed-border  _with-top-dashed-border">
             <h3 class="big-title-text">Построить график.</h3>
+            <p id="create"></p>
             <div class="build-graph__params" ng-controller="graphController">
                 <form name="graphForm">
                     <div style="display: flex; padding-bottom: 50px; justify-content: center">
@@ -80,7 +167,7 @@
                                 <div class="form-field__label">Границы и шаг:</div>
                                 <div class="form-field__value">
                                     Шаг = <input type="text"
-                                           pattern="^[0-9]+$"
+                                           pattern="^[0-9-,.]+$"
                                            ng-required="true"
                                            ng-model="graph.step">
                                 </div>
@@ -88,14 +175,14 @@
                             <div class="form-field">
                                 <div class="form-field__value">
                                     min = <input type="text"
-                                           pattern="^[0-9-]+$"
+                                           pattern="^[0-9-,.]+$"
                                            ng-required="true"
                                            ng-model="graph.min">
                                 </div>
                             </div>
                             <div class="form-field">
                                 <div class="form-field__value">
-                                    max = <input pattern="^[0-9-]+$"
+                                    max = <input pattern="^[0-9-,.]+$"
                                                  ng-required="true"
                                                  ng-model="graph.max">
                                 </div>
@@ -116,7 +203,7 @@
                                 <div class="form-field__label">Значение</div>
                                 <div class="form-field__value">
                                     <input class="_small-field"
-                                           pattern="^[0-9-]+$"
+                                           pattern="^[0-9-,.]+$"
                                            ng-model="newItem.value">
                                 </div>
                             </div>
@@ -159,34 +246,86 @@
 <div class="footer">
     <div class="footer__other_links">
         <ul>
-            <a href="">
+            <a href="https://github.com/ramaketa">
                 <li style="background: url(../resources/icons/github.png)"></li>
             </a>
             <a href="">
                 <li style="background: url(../resources/icons/gmail.png)"></li>
             </a>
-            <a href="">
+            <a href="https://vk.com/nur1ev1">
                 <li style="background: url(../resources/icons/vk.png)"></li>
             </a>
         </ul>
     </div>
     <div class="footer__links">
         <ul>
-            <a href="">
+            <a href="#service">
                 <li>О сервисе</li>
             </a>
             <a href="">
                 <li>Помощь</li>
             </a>
-            <a href="">
+            <a href="#create">
                 <li>Построить график</li>
             </a>
         </ul>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
-<!--<script src="../node_modules/angular/angular.min.js"></script>-->
-<!--<script src="../node_modules/angular/index.js"></script>-->
 <script src="../js/graph.controller.js"></script>
+<script src="../node_modules/chart.js/dist/Chart.js"></script>
+<script>
+    let x = [-86,-114,-106,106,107,-111,133,221,-783,2478];
+    let y = [86,114,106,106,107,111,133,221,783,-2478];
+
+    let min_x = Math.min( ...x ),
+        max_x = Math.max( ...x );
+    max_y = Math.max( ...y );
+    min_y = Math.max( ...y );
+
+    new Chart(document.getElementById("myChart"), {
+        type: 'line',
+        data: {
+            labels: x,
+            datasets: [{
+                data: y,
+                label: "y = f(x)",
+                borderColor: "#3e95cd",
+                fill: false
+            }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'function y = f(x)'
+            },
+            scales: {
+                yAxes:[{
+                    stacked:true,
+                    gridLines: {
+                        display:true,
+                        color:"rgba(255,99,132,0.2)"
+                    },
+                    ticks: {
+                        // suggestedMax: max_y,
+                        // suggestedMin: min_y,
+                    }
+                }],
+                xAxes:[{
+                    stepSize: 100,
+                    stacked: true,
+                    gridLines: {
+                        display:true
+                    },
+                    ticks: {
+                        suggestedMax: max_x,
+                        suggestedMin: min_x,
+                    }
+                }]
+            }
+        }
+    });
+</script>
 </body>
 </html>
