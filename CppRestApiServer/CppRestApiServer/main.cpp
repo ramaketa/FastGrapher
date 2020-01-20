@@ -22,6 +22,19 @@ using namespace std;
 
 typedef std::wstring string_t;
 
+struct REQUEST_ANSWER 
+{
+    string_t x_values;
+    string_t y_values;
+
+    web::json::value ObjectToJson() const {
+    web::json::value result = web::json::value::object();
+    result[U("x_values")] = web::json::value::string(x_values);
+    result[U("y_values")] = web::json::value::string(y_values);
+    return result;
+    }
+};
+
 struct REQUEST_PARAMS {
     string_t equation;
     string_t varsString;
@@ -43,17 +56,11 @@ struct REQUEST_PARAMS {
         result.step = object.at(U("step")).as_double();
         return result;
     }
-
-    /*web::json::value ObjectToJson() const {
-        web::json::value result = web::json::value::object();
-        result[U("equation")] = web::json::value::string(name);
-        result[U("varsString")] = web::json::value::number(age);
-        result[U("varsString")] = web::json::value::number(salary);
-        return result;
-    }*/
 };
 
-void calc(REQUEST_PARAMS client_params) {
+
+
+vector<vector<double>> calc(REQUEST_PARAMS client_params) {
 
     double min = client_params.min;
     double max = client_params.max;
@@ -80,7 +87,7 @@ void calc(REQUEST_PARAMS client_params) {
     int n = vars_values.size()+1;
     double* vals;
     vals = new double[n];
-
+    
     for (int i = 0; i < n-1; i++)
     {
         vals[i] = vars_values[i];
@@ -99,9 +106,13 @@ void calc(REQUEST_PARAMS client_params) {
             x += step;
         }
     }
+    
+    vector<vector<double>> values{
+        x_values,
+        y_values
+    };
 
-    wcout << y_values[2] << endl;
-    wcout << ret << endl;
+    return values;
 }
 
 void display_json(
@@ -111,51 +122,59 @@ void display_json(
     wcout << prefix << jvalue.serialize() << endl;
 }
 
-void handle_request(
-    http_request request,
-    function<void(json::value const&, json::value&)> action)
+void handle_request(http_request request,
+function<void(json::value const&, json::value &)> handler)
 {
-    auto answer = json::value::object();
-
-    request
-        .extract_json()
-        .then([&answer, &action](pplx::task<json::value> task) {
-        try
-        {
+    auto result = web::json::value::object();
+    request.extract_json().then([&result, &handler](pplx::task<json::value> task) {
+        try {
             auto const& jvalue = task.get();
-            display_json(jvalue, L"R: ");
-
-            REQUEST_PARAMS pm;
-            pm = pm.JSonToObject(jvalue.as_object());
-
-            calc(pm);
-
+            display_json(jvalue, L"R:");
+            
             if (!jvalue.is_null())
-            {
-                action(jvalue, answer);
-            }
+                handler(jvalue, result); // invoke the lambda
         }
-        catch (http_exception const& e)
-        {
-            wcout << e.what() << endl;
+        catch (http_exception const& e) {
+            wcout << L"Exception ->" << e.what() << endl;
         }
-            })
-        .wait();
-
-
-        display_json(answer, L"S: ");
-
-        request.reply(status_codes::OK, answer);
+    }).wait();
+    display_json(result, L"sdsd:");
+    request.reply(status_codes::OK, result);
 }
 
 void handle_post(http_request request)
 {
-    TRACE("\nhandle POST\n");
-
     handle_request(
         request,
-        [](json::value const& jvalue, json::value& answer)
+        [](json::value const& jvalue, json::value &result)
         {
+            REQUEST_PARAMS pm;
+            pm = pm.JSonToObject(jvalue.as_object());
+
+            vector<vector<double>> calc_answers;
+            calc_answers = calc(pm);
+
+            string x_values = "";
+            string y_values = "";
+            
+            //double* x_values;
+            //x_values = new double[calc_answers[0].size()];
+            //double* y_values;
+            //y_values = new double[calc_answers[1].size()];
+
+            for (int i = 0; i < calc_answers[0].size(); i++)
+            {
+                result[U("x")][i] = json::value::number(calc_answers[0][i]);
+                result[U("y")][i] = json::value::number(calc_answers[1][i]);
+            }
+
+            //REQUEST_ANSWER ans;
+
+            //ans.x_values = utility::conversions::to_string_t(x_values);
+            //ans.y_values = utility::conversions::to_string_t(y_values);
+
+            //result[0] = web::json::value::(x_values);
+
         });
 }
 
