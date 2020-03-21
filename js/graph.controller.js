@@ -10,6 +10,41 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
    vm.graph = {
    };
 
+   const chartElem = document.getElementById("myChart");
+
+   let mainChart = new Chart(chartElem, {
+        type: 'line',
+        data: {
+            labels: [-4, -3, -2, -1, 0, 1, 2, 3, 4],
+            datasets: [{
+                data: [-16, -9, -4, 1, 0, 1, 4, 9, 16],
+                label: 'Y = F(x)',
+                borderColor: "#3e95cd",
+                fill: false
+            }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'FASTGRAPHER 2.0'
+            },
+            scales: {
+                yAxes:[{
+                    gridLines: {
+                        display:true,
+                        color:"rgba(255,99,132,0.2)"
+                    },
+                }],
+                xAxes:[{
+                    gridLines: {
+                        display:true
+                    },
+                }]
+            }
+        }
+    });
+
     vm.variables = [];
 
     vm.addVariable = (data) => {
@@ -21,6 +56,13 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
         vm.newItem = {};
     };
 
+    function setNewGraph (labels, data) {
+        mainChart.data.labels = labels;
+        mainChart.data.datasets[0].data = data;
+        mainChart.data.datasets[0].label = vm.graph.equation;
+        mainChart.update();
+    }
+
     vm.removeItem = (index) => {
         vm.variables.splice(index, 1);
     };
@@ -28,7 +70,7 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
     vm.sendParams = () => {
         vars = '';
         varsString = '';
-        if(vm.graphForm.$valid) {
+        if(vm.graphForm.$valid && vm.graph.step >= 0.001) {
             for(let i = 0; i < vm.variables.length; i++) {
                 varsString += vm.variables[i].term + ',';
                 if (i !== vm.variables.length - 1) {
@@ -51,40 +93,8 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
                             (item)=>{
                                 return Number(item.toFixed(4));
                         });
-                        const chartElem = document.getElementById("myChart");
-                        new Chart(chartElem, {
-                            type: 'line',
-                            data: {
-                                labels: data_set,
-                                datasets: [{
-                                    data: label_set,
-                                    label: "y = f(x)",
-                                    borderColor: "#3e95cd",
-                                    fill: false
-                                }
-                                ]
-                            },
-                            options: {
-                                title: {
-                                    display: true,
-                                    text: 'function y = f(x)'
-                                },
-                                scales: {
-                                    yAxes:[{
-                                        gridLines: {
-                                            display:true,
-                                            color:"rgba(255,99,132,0.2)"
-                                        },
-                                    }],
-                                    xAxes:[{
-                                        gridLines: {
-                                            display:true
-                                        },
-                                    }]
-                                }
-                            }
-                        });
                         chartElem.scrollIntoView({block: "center", behavior: "smooth"});
+                        setNewGraph(data_set,label_set);
                     },
                     (err) => {
                         alert("Извините, что-то пошло не так. Проверьте корректность данных или обратитесь к администратору")
@@ -92,7 +102,7 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
                     }
                 )
         } else {
-            alert('Заполните все поля!');
+            alert('Введите корректные данные!');
         }
     }
 });
