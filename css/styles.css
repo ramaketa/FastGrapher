@@ -140,7 +140,7 @@ a {
 
 .nav-panel .nav-panel__buttons {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     width: 60%;
 
     margin: 0 10px;

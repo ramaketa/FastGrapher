@@ -96,7 +96,7 @@ vector<vector<double>> calc(REQUEST_PARAMS client_params) {
     int ret = fp.Parse(equation, varsString);
     
     if (ret < 0) {
-        while (x < max)
+        while (x <= max)
         {
             vals[n-1] = x;
             y_values.push_back(fp.Eval(vals));

@@ -156,7 +156,7 @@ namespace
         "Syntax error. Operator expected",          // 4
         "Not enough memory",                        // 5
         "An unexpected error ocurred. Please make a full bug report "
-        "to warp@iki.fi",                           // 6
+        "to ramaketa@gmail.com",                           // 6
         "Syntax error in parameter 'Vars' given to "
         "FunctionParser::Parse()",                  // 7
         "Illegal number of parameters to function"  // 8
