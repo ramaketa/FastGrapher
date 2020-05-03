@@ -161,6 +161,25 @@ a {
     background-color: #ffa813;
     border: 1px solid #ffa813;
     border-radius: 10px;
+    white-space: nowrap;
+}
+
+.nav-panel__buttons_compacted {
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 2rem;
+}
+
+.menu-icon {
+    background: url("../resources/icons/menu.png");
+    background-size: contain;
+
+    width: 32px;
+    height: 32px;
+
+    cursor: pointer;
 }
 
 /*CONTENT*/
@@ -265,44 +284,40 @@ a {
 /*FOOTER*/
 
 .footer {
+    width: 100%;
+
     display: flex;
     flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+
     background-color: #ffa813;
 }
 
-.footer__links {
-    width: 45%;
-    text-align: right;
-}
-
-.footer__other_links {
-    width: 50%;
-}
-
-.footer__other_links ul {
+.footer__items,
+.footer__items_image {
     display: flex;
     flex-direction: row;
+
+    align-items: center;
     justify-content: center;
+
     list-style: none;
 }
 
-.footer__links ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    list-style: none;
+.footer__items a,
+.footer__items_image a {
+    margin: 0 2rem;
 }
 
-.footer__links ul li {
-    margin: 15px 50px;
-}
+.footer__items_image li {
+    width: 3rem;
+    height: 3rem;
 
-.footer__other_links ul li {
-    margin: 10px 100px;
     background-size: contain !important;
-    width: 2.5rem;
-    height: 2.5rem;
 }
+
 
 ._half-size {
     width: 45%;
@@ -312,3 +327,59 @@ a {
     text-align: center;
 }
 
+/* Portrait tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    .nav-panel__buttons_compacted {
+        display: flex;
+    }
+
+    .nav-panel__buttons,
+    .welcome-content__image,
+    .personal-card__image {
+        display: none !important;
+    }
+
+    .welcome-content__description {
+        width: 100%;
+
+        text-align: center;
+        align-items: center;
+    }
+
+    .personal-card__description {
+        width: 90% !important;
+    }
+
+    .big-title-text {
+        font-size: 1.5rem;
+    }
+
+    .footer {
+        flex-direction: column;
+    }
+}
+
+/* Landscape phones and smaller */
+@media (max-width: 480px) {
+    .footer {
+        flex-direction: column;
+    }
+
+    .about-service ._half-size {
+        float: none;
+
+        width: 100%;
+
+        margin: 0 !important;
+    }
+}

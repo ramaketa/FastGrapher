@@ -8,7 +8,7 @@
     <script src="../js/script.js" type="module"></script>
 <!--    <script src="../node_modules/chart.js/dist/Chart.min.js"></script>-->
 </head>
-<body ng-app="graphApp">
+<body ng-app="graphApp" ng-controller="graphController">
 <div class="header">
     <div class="nav-panel">
         <div class="nav-panel__logo">
@@ -27,6 +27,10 @@
                     <li>Помощь</li>
                 </a>
             </ul>
+        </div>
+
+        <div class="nav-panel__buttons_compacted">
+            <div class="menu-icon"></div>
         </div>
     </div>
 </div>
@@ -150,7 +154,7 @@
         <div class="build-graph _with-bottom-dashed-border  _with-top-dashed-border">
             <h3 class="big-title-text">Построить график.</h3>
             <p id="create"></p>
-            <div class="build-graph__params" ng-controller="graphController">
+            <div class="build-graph__params">
                 <form name="graphForm">
                     <div style="display: flex; padding-bottom: 50px; justify-content: center">
                         <div class="form-set" style="width: 31%">
@@ -245,32 +249,28 @@
     </div>
 </div>
 <div class="footer">
-    <div class="footer__other_links">
-        <ul>
-            <a href="https://github.com/ramaketa">
-                <li style="background: url(../resources/icons/github.png)"></li>
-            </a>
-            <a href="">
-                <li style="background: url(../resources/icons/gmail.png)"></li>
-            </a>
-            <a href="https://vk.com/nur1ev1">
-                <li style="background: url(../resources/icons/vk.png)"></li>
-            </a>
-        </ul>
-    </div>
-    <div class="footer__links">
-        <ul>
-            <a href="#service">
-                <li>О сервисе</li>
-            </a>
-            <a href="">
-                <li>Помощь</li>
-            </a>
-            <a href="#create">
-                <li>Построить график</li>
-            </a>
-        </ul>
-    </div>
+    <ul class="footer__items_image">
+        <a href="https://github.com/ramaketa">
+            <li style="background: url(../resources/icons/github.png)"></li>
+        </a>
+        <a href="">
+            <li style="background: url(../resources/icons/gmail.png)"></li>
+        </a>
+        <a href="https://vk.com/nur1ev1">
+            <li style="background: url(../resources/icons/vk.png)"></li>
+        </a>
+    </ul>
+    <ul class="footer__items">
+        <a href="#service">
+            <li>О сервисе</li>
+        </a>
+        <a href="">
+            <li>Помощь</li>
+        </a>
+        <a href="#create">
+            <li>Построить график</li>
+        </a>
+    </ul>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
 <script src="../js/graph.controller.js"></script>
