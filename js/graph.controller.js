@@ -5,6 +5,8 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
    let varsString = '';
    let vars = [];
 
+   vm.compacted = true;
+
    vm.newItem = {
    };
    vm.graph = {
@@ -121,7 +123,7 @@ graphApp.service('graphParamsService', function($http){
         };
         return $http({
             method: 'POST',
-            url: 'http://localhost:3000',
+            url: 'http://192.168.1.33:5432',
             headers: {
                 'Content-Type': 'application/json',
             },
