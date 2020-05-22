@@ -137,7 +137,16 @@ function<void(json::value const&, json::value &)> handler)
         }
     }).wait();
     display_json(result, L"Server Response:");
-    request.reply(status_codes::OK, result);
+    //http_response response(status_codes::OK);
+    //response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+    //response.set_body(result);
+    //request.reply(response);
+    http_response response(status_codes::OK);
+    response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+    response.headers().add(U("Access-Control-Allow-Methods"), U("GET, POST, OPTIONS"));
+    response.headers().add(U("Access-Control-Allow-Headers"), U("Content-Type, Access-Control-Allow-Headers, X-Requested-With, Version, Authorization"));
+    response.set_body(result);
+    request.reply(response);
 }
 
 void handle_post(http_request request)
@@ -164,12 +173,22 @@ void handle_post(http_request request)
         });
 }
 
+void handle_options(http_request request)
+{
+    http_response response(status_codes::OK);
+    response.headers().add(U("Allow"), U("GET, POST, OPTIONS"));
+    response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+    response.headers().add(U("Access-Control-Allow-Methods"), U("GET, POST, OPTIONS"));
+    response.headers().add(U("Access-Control-Allow-Headers"), U("Content-Type, Access-Control-Allow-Headers, X-Requested-With, Version, Authorization"));
+    request.reply(response);
+}
 
 int main()
 {
-    http_listener listener(L"http://localhost:3000");
+    http_listener listener(L"http://localhost:80");
 
     listener.support(methods::POST, handle_post);
+    listener.support(methods::OPTIONS, handle_options);
 
     try
     {

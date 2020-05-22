@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Quick Graph</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
@@ -23,7 +24,7 @@
                 <a href="#service">
                     <li>О сервисе</li>
                 </a>
-                <a href="#help">
+                <a href="https://vk.com/nur1ev1">
                     <li>Помощь</li>
                 </a>
             </ul>
@@ -263,7 +264,9 @@
                 </form>
             </div>
         </div>
-        <canvas id="myChart" width="500" height="200"></canvas>
+        <div class="chart-wrapper">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 </div>
 <div class="footer">
@@ -282,7 +285,7 @@
         <a href="#service">
             <li>О сервисе</li>
         </a>
-        <a href="">
+        <a href="https://vk.com/nur1ev1">
             <li>Помощь</li>
         </a>
         <a href="#create">
@@ -292,6 +295,6 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
 <script src="../js/graph.controller.js"></script>
-<script src="../node_modules/chart.js/dist/Chart.js"></script>
+<script src="../node_modules/chart.js/dist/Chart.min.js"></script>
 </body>
 </html>

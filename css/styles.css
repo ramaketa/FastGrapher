@@ -376,7 +376,14 @@ a {
     text-align: center;
 }
 
-/* Portrait tablets and medium desktops */
+.chart-wrapper {
+    display: block;
+    margin: auto;
+    height: 80vh;
+    width: 80vw;
+}
+
+ /*Portrait tablets and medium desktops */
 @media (min-width: 992px) and (max-width: 1199px) {
     .logo-image {
         display: none;

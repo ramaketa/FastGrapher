@@ -2,6 +2,7 @@
   "name": "FastGrapher",
   "version": "1.0.0",
   "dependencies": {
-    "angular": "^1.7.9"
+    "angular": "^1.7.9",
+    "chart.js": "^2.9.3"
   }
 }

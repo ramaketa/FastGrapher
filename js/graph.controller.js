@@ -12,6 +12,48 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
    vm.graph = {
    };
 
+   function test () {
+       let attemptNumber = 1000;
+
+       let equation = 'x+x-x+1.1-y+y-x+12-(x-y+1.1)+1';
+       let varsString = "y,x";
+       let vars = "2";
+       let min = 1;
+       let max = 20;
+       let step = 1;
+
+       let listTable = '';
+
+       for (let i = 0; i < attemptNumber; i++) {
+
+           let time = performance.now();
+           graphParamsService.sendRequest(equation, varsString, vars, min, max, step)
+               .then(
+                   (res) => {
+                       let responseData = res.data;
+                       let data_set = responseData.x.map(
+                           (item) => {
+                               return Number(item.toFixed(4));
+                           });
+                       let label_set = responseData.y.map(
+                           (item) => {
+                               return Number(item.toFixed(4));
+                           });
+                       chartElem.scrollIntoView({block: "center", behavior: "smooth"});
+                       setNewGraph(data_set, label_set);
+                   },
+               );
+
+           time = performance.now() - time;
+
+           listTable += `(${11+attemptNumber*2};${time}) `;
+
+           equation += '*x^y';
+           // max += 10;
+       }
+       console.log(listTable);
+   }
+
    const chartElem = document.getElementById("myChart");
 
    let mainChart = new Chart(chartElem, {
@@ -69,6 +111,9 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
         vm.variables.splice(index, 1);
     };
 
+
+    test();
+
     vm.sendParams = () => {
         vars = '';
         varsString = '';
@@ -123,7 +168,7 @@ graphApp.service('graphParamsService', function($http){
         };
         return $http({
             method: 'POST',
-            url: 'http://192.168.1.33:5432',
+            url: 'http://localhost:80',
             headers: {
                 'Content-Type': 'application/json',
             },
