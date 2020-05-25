@@ -307,6 +307,13 @@ a {
     float: none;
 }
 
+.form-set.variables {
+    display: flex;
+    flex-direction: row;
+
+    width: 95%;
+}
+
 .form-field {
     float: left;
 }

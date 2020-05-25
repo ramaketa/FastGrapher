@@ -112,7 +112,7 @@ graphApp.controller('graphController', function($scope, $http, graphParamsServic
     };
 
 
-    test();
+    // test();
 
     vm.sendParams = () => {
         vars = '';
